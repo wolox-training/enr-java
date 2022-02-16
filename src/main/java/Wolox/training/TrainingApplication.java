@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TrainingApplication {
 
 	public static void main(String[] args) {
-		System.out.println("bla la");
 		SpringApplication.run(TrainingApplication.class, args);
 	}
 
