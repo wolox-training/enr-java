@@ -1,10 +1,11 @@
 package Wolox.training.repositories;
 
 import Wolox.training.models.Book;
-import org.springframework.data.repository.Repository;
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BookRepository extends Repository<Book, Long> {
+import java.util.Optional;
 
-    List<Book> findByAuthor(String author);
+public interface BookRepository extends JpaRepository<Book, Long> {
+
+    Optional<Book> findByAuthor(String author);
 }
