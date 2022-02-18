@@ -48,6 +48,10 @@ public class Book {
         this.isbn = isbn;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }
