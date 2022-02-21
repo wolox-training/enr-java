@@ -35,6 +35,10 @@ public class Book {
     @Column(nullable = false)
     private String isbn;
 
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
+
     public Book(String title, String author, String gender, String image, String subtitle, String publisher, String year, Integer pages, String isbn) {
         this.title = title;
         this.author = author;
