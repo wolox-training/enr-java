@@ -14,7 +14,6 @@ public class Book {
     @Column(nullable = false)
     private String author;
 
-    @Column(nullable = true)
     private String gender;
 
     @Column(nullable = false)
