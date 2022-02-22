@@ -1,6 +1,7 @@
 package Wolox.training.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Book {
@@ -35,9 +36,8 @@ public class Book {
     @Column(nullable = false)
     private String isbn;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
+    @ManyToMany(mappedBy = "books")
+    private List<User> users;
 
     public Book(String title, String author, String gender, String image, String subtitle, String publisher, String year, Integer pages, String isbn) {
         this.title = title;

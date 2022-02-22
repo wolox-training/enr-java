@@ -3,7 +3,6 @@ package Wolox.training.models;
 import Wolox.training.exceptions.BookAlreadyOwnedException;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,8 +22,12 @@ public class User {
     @Column(nullable = false)
     private String birthDate;
 
-    @OneToMany(mappedBy = "user")
-    private List<Book> books = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "book_user",
+            joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id",
+                    referencedColumnName = "id"))
+    private List<Book> books;
 
     public User(String username, String name, String birthDate) {
         this.username = username;
