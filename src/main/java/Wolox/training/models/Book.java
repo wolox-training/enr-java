@@ -25,21 +25,28 @@ public class Book {
     @Column(nullable = true)
     private String gender;
 
+    @ApiModelProperty("Image of book cover page")
     @Column(nullable = false)
     private String image;
 
+    @ApiModelProperty("Book subtitle")
     @Column(nullable = false)
     private String subtitle;
 
+    @ApiModelProperty("publisher that published the book")
     @Column(nullable = false)
     private String publisher;
 
+
+    @ApiModelProperty("Year of publication")
     @Column(nullable = false)
     private String year;
 
+    @ApiModelProperty("Number of pages")
     @Column(nullable = false)
     private Integer pages;
 
+    @ApiModelProperty("ISBN code")
     @Column(nullable = false)
     private String isbn;
 

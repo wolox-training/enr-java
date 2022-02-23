@@ -23,8 +23,6 @@ public class BookController {
      * @return a String which is the name of template
      */
     @GetMapping("/greeting")
-    @ApiOperation(value = "Giving a greet", response = String.class)
-    @ApiResponse(code = 200, message = "OK")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
         return "greeting";
@@ -40,6 +38,8 @@ public class BookController {
      * @return Book created
      */
     @PostMapping
+    @ApiOperation(value = "Giving an object returns a book", response = Book.class)
+    @ApiResponse(code = 200, message = "The book was created successfully.")
     @ResponseStatus(HttpStatus.CREATED)
     public Book create(@RequestBody Book book) {
         return bookRepository.save(book);
