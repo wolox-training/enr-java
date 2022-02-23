@@ -1,6 +1,6 @@
-package Wolox.training.models;
+package wolox.training.models;
 
-import Wolox.training.exceptions.BookAlreadyOwnedException;
+import wolox.training.exceptions.BookAlreadyOwnedException;
 
 import javax.persistence.*;
 import java.util.Collections;
