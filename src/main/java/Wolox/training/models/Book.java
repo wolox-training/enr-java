@@ -1,20 +1,27 @@
-package Wolox.training.models;
+package wolox.training.models;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@ApiModel(description = "Represents books from the OpenLibraryApi")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @ApiModelProperty("Represents the book title.")
     @Column(nullable = false, unique = true)
     private String title;
 
+    @ApiModelProperty("Author of the book.")
     @Column(nullable = false)
     private String author;
 
+    @ApiModelProperty("Author of the book.")
     @Column(nullable = true)
     private String gender;
 
