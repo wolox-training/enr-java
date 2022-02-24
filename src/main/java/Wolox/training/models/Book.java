@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String title;
@@ -31,7 +31,7 @@ public class Book {
     @Column(nullable = false)
     private Integer pages;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String isbn;
 
    public Book() {}
