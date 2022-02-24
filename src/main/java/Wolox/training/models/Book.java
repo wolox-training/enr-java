@@ -55,6 +55,8 @@ public class Book {
     @ManyToMany(mappedBy = "books")
     private List<User> users;
 
+    public Book(){}
+
     public Book(String title, String author, String gender, String image, String subtitle, String publisher, String year, Integer pages, String isbn) {
         this.title = title;
         this.author = author;
