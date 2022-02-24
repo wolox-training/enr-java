@@ -16,7 +16,7 @@ import static wolox.training.constants.PreconditionMessage.*;
 @ApiModel(description = "Represents books from the OpenLibraryApi")
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
     @ApiModelProperty(value="Represents the book title.", required = true)
