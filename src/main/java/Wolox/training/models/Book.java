@@ -13,40 +13,40 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @ApiModelProperty("Represents the book title.")
+    @ApiModelProperty(value="Represents the book title.", required = true)
     @Column(nullable = false, unique = true)
     private String title;
 
-    @ApiModelProperty("Author of the book.")
+    @ApiModelProperty(value = "Author of the book.", required = true)
     @Column(nullable = false)
     private String author;
 
-    @ApiModelProperty("Author of the book.")
+    @ApiModelProperty(value = "Author of the book.")
     @Column(nullable = true)
     private String gender;
 
-    @ApiModelProperty("Image of book cover page")
+    @ApiModelProperty(value = "Image of book cover page", required = true)
     @Column(nullable = false)
     private String image;
 
-    @ApiModelProperty("Book subtitle")
+    @ApiModelProperty(value = "Book subtitle", required = true)
     @Column(nullable = false)
     private String subtitle;
 
-    @ApiModelProperty("publisher that published the book")
+    @ApiModelProperty(value = "publisher that published the book", required = true)
     @Column(nullable = false)
     private String publisher;
 
 
-    @ApiModelProperty("Year of publication")
+    @ApiModelProperty(value = "Year of publication", required = true)
     @Column(nullable = false)
     private String year;
 
-    @ApiModelProperty("Number of pages")
+    @ApiModelProperty(value = "Number of pages", required = true)
     @Column(nullable = false)
     private Integer pages;
 
-    @ApiModelProperty("ISBN code")
+    @ApiModelProperty(value = "ISBN code", required = true)
     @Column(nullable = false)
     private String isbn;
 
