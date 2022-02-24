@@ -1,8 +1,8 @@
-package Wolox.training.controllers;
+package wolox.training.controllers;
 
-import Wolox.training.exceptions.BookNotFoundException;
-import Wolox.training.models.Book;
-import Wolox.training.repositories.BookRepository;
+import wolox.training.exceptions.BookNotFoundException;
+import wolox.training.models.Book;
+import wolox.training.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

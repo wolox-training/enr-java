@@ -1,6 +1,7 @@
-package Wolox.training.models;
+package wolox.training.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,7 +38,7 @@ public class Book {
     private String isbn;
 
     @ManyToMany(mappedBy = "books")
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     public Book(String title, String author, String gender, String image, String subtitle, String publisher, String year, Integer pages, String isbn) {
         this.title = title;
