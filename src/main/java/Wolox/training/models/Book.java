@@ -17,7 +17,7 @@ import static wolox.training.constants.PreconditionMessage.*;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
+    private Long id;
 
     @ApiModelProperty(value="Represents the book title.", required = true)
     @Column(nullable = false, unique = true)
@@ -53,7 +53,7 @@ public class Book {
     private Integer pages;
 
     @ApiModelProperty(value = "ISBN code", required = true)
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String isbn;
 
     @ManyToMany(mappedBy = "books")
