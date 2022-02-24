@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.*;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 @Entity
 @ApiModel(description = "Represents books from the OpenLibraryApi")
 public class Book {
@@ -74,6 +76,7 @@ public class Book {
     }
 
     public void setTitle(String title) {
+        checkNotNull(title);
         this.title = title;
     }
 
@@ -82,6 +85,7 @@ public class Book {
     }
 
     public void setAuthor(String author) {
+        checkNotNull(author);
         this.author = author;
     }
 
@@ -90,6 +94,7 @@ public class Book {
     }
 
     public void setGender(String gender) {
+        checkNotNull(gender);
         this.gender = gender;
     }
 
@@ -98,6 +103,7 @@ public class Book {
     }
 
     public void setImage(String image) {
+        checkNotNull(image);
         this.image = image;
     }
 
@@ -106,6 +112,7 @@ public class Book {
     }
 
     public void setSubtitle(String subtitle) {
+        checkNotNull(subtitle);
         this.subtitle = subtitle;
     }
 
@@ -114,6 +121,7 @@ public class Book {
     }
 
     public void setPublisher(String publisher) {
+        checkNotNull(publisher);
         this.publisher = publisher;
     }
 
@@ -122,6 +130,7 @@ public class Book {
     }
 
     public void setYear(String year) {
+        checkNotNull(year);
         this.year = year;
     }
 
@@ -130,6 +139,7 @@ public class Book {
     }
 
     public void setPages(Integer pages) {
+        checkNotNull(pages);
         this.pages = pages;
     }
 
@@ -138,6 +148,7 @@ public class Book {
     }
 
     public void setIsbn(String isbn) {
+        checkNotNull(isbn);
         this.isbn = isbn;
     }
 }
