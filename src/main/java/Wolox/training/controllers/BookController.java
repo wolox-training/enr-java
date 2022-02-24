@@ -1,16 +1,17 @@
 package Wolox.training.controllers;
 
 import Wolox.training.exceptions.BookNotFoundException;
+import wolox.training.exceptions.BookIdMismatchException;
 import Wolox.training.models.Book;
 import Wolox.training.repositories.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+
 @Controller
-@RequestMapping("/api/books")
+@RequestMapping("/books")
 public class BookController {
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
@@ -18,8 +19,11 @@ public class BookController {
         return "greeting";
     }
 
-    @Autowired
     private BookRepository bookRepository;
+
+    public BookController(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -36,7 +40,7 @@ public class BookController {
     @PutMapping("/{id}")
     public Book updateBook(@RequestBody Book book, @PathVariable Long id) {
         if (book.getId() != id) {
-            throw new BookNotFoundException();
+            throw new BookIdMismatchException();
         }
        bookRepository.findById(id)
                 .orElseThrow(BookNotFoundException::new);
