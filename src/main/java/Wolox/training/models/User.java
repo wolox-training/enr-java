@@ -6,6 +6,9 @@ import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 @Entity(name = "users")
 public class User {
 
@@ -40,6 +43,7 @@ public class User {
     }
 
     public void setId(long id) {
+        checkNotNull(id);
         this.id = id;
     }
 
@@ -48,6 +52,7 @@ public class User {
     }
 
     public void setUsername(String username) {
+        checkNotNull(username);
         this.username = username;
     }
 
@@ -56,6 +61,7 @@ public class User {
     }
 
     public void setName(String name) {
+        checkNotNull(name);
         this.name = name;
     }
 
@@ -64,6 +70,7 @@ public class User {
     }
 
     public void setBirthDate(String birthDate) {
+        checkNotNull(birthDate);
         this.birthDate = birthDate;
     }
 
@@ -76,6 +83,7 @@ public class User {
     }
 
     public void setBooks(List<Book> books) {
+        checkArgument(!books.isEmpty());
         this.books = books;
     }
 
