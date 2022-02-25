@@ -5,8 +5,8 @@ import javax.persistence.*;
 @Entity
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String title;
@@ -14,7 +14,6 @@ public class Book {
     @Column(nullable = false)
     private String author;
 
-    @Column(nullable = true)
     private String gender;
 
     @Column(nullable = false)
@@ -32,8 +31,10 @@ public class Book {
     @Column(nullable = false)
     private Integer pages;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String isbn;
+
+   public Book() {}
 
     public Book(String title, String author, String gender, String image, String subtitle, String publisher, String year, Integer pages, String isbn) {
         this.title = title;
@@ -45,6 +46,10 @@ public class Book {
         this.year = year;
         this.pages = pages;
         this.isbn = isbn;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getTitle() {
