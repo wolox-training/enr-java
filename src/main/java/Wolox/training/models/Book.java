@@ -4,9 +4,13 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
+import java.time.Year;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Strings.isNullOrEmpty;
+import static wolox.training.constants.PreconditionMessage.*;
+
 
 @Entity
 @ApiModel(description = "Represents books from the OpenLibraryApi")
@@ -78,7 +82,7 @@ public class Book {
     }
 
     public void setTitle(String title) {
-        checkNotNull(title);
+        checkArgument(!isNullOrEmpty(title), NOT_NULL_OR_EMPTY);
         this.title = title;
     }
 
@@ -87,7 +91,7 @@ public class Book {
     }
 
     public void setAuthor(String author) {
-        checkNotNull(author);
+        checkArgument(!isNullOrEmpty(author), NOT_NULL_OR_EMPTY);
         this.author = author;
     }
 
@@ -96,7 +100,7 @@ public class Book {
     }
 
     public void setGender(String gender) {
-        checkNotNull(gender);
+        checkArgument(!isNullOrEmpty(gender), NOT_NULL_OR_EMPTY);
         this.gender = gender;
     }
 
@@ -105,7 +109,7 @@ public class Book {
     }
 
     public void setImage(String image) {
-        checkNotNull(image);
+        checkArgument(!isNullOrEmpty(image), NOT_NULL_OR_EMPTY);
         this.image = image;
     }
 
@@ -114,7 +118,7 @@ public class Book {
     }
 
     public void setSubtitle(String subtitle) {
-        checkNotNull(subtitle);
+        checkArgument(!isNullOrEmpty(subtitle), NOT_NULL_OR_EMPTY);
         this.subtitle = subtitle;
     }
 
@@ -123,7 +127,7 @@ public class Book {
     }
 
     public void setPublisher(String publisher) {
-        checkNotNull(publisher);
+        checkArgument(!isNullOrEmpty(publisher), NOT_NULL_OR_EMPTY);
         this.publisher = publisher;
     }
 
@@ -132,7 +136,9 @@ public class Book {
     }
 
     public void setYear(String year) {
-        checkNotNull(year);
+        checkArgument(!isNullOrEmpty(year), NOT_NULL_OR_EMPTY);
+        checkArgument(Integer.parseInt(year) > 0, YEAR_IS_LESS);
+        checkArgument(Integer.parseInt(year) <= Year.now().getValue(), YEAR_IS_GREATER);
         this.year = year;
     }
 
@@ -141,7 +147,7 @@ public class Book {
     }
 
     public void setPages(Integer pages) {
-        checkNotNull(pages);
+        checkArgument(!isNullOrEmpty(pages), NOT_NULL_OR_EMPTY);
         this.pages = pages;
     }
 
@@ -150,7 +156,7 @@ public class Book {
     }
 
     public void setIsbn(String isbn) {
-        checkNotNull(isbn);
+        checkArgument(!isNullOrEmpty(isbn), NOT_NULL_OR_EMPTY);
         this.isbn = isbn;
     }
 }
