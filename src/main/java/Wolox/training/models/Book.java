@@ -16,8 +16,8 @@ import static wolox.training.constants.PreconditionMessage.*;
 @ApiModel(description = "Represents books from the OpenLibraryApi")
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @ApiModelProperty(value="Represents the book title.", required = true)
     @Column(nullable = false, unique = true)
@@ -52,14 +52,14 @@ public class Book {
     @Column(nullable = false)
     private Integer pages;
 
-    @ApiModelProperty(value = "ISBN code", required = true)
-    @Column(nullable = false)
-    private String isbn;
-
     @ManyToMany(mappedBy = "books")
     private List<User> users;
 
-    public Book(){}
+    @ApiModelProperty(value = "ISBN code", required = true)
+    @Column(nullable = false, unique = true)
+    private String isbn;
+
+    public Book() {}
 
     public Book(String title, String author, String gender, String image, String subtitle, String publisher, String year, Integer pages, String isbn) {
         this.title = title;
