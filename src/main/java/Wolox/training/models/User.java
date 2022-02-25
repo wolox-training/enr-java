@@ -3,6 +3,7 @@ package wolox.training.models;
 import wolox.training.exceptions.BookAlreadyOwnedException;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
     @Column(nullable = false)
@@ -20,16 +21,16 @@ public class User {
     private String name;
 
     @Column(nullable = false)
-    private String birthDate;
+    private LocalDate birthDate;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(name = "book_user",
             joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_id",
                     referencedColumnName = "id"))
     private List<Book> books;
 
-    public User(String username, String name, String birthDate) {
+    public User(String username, String name, LocalDate birthDate) {
         this.username = username;
         this.name = name;
         this.birthDate = birthDate;
@@ -59,11 +60,11 @@ public class User {
         this.name = name;
     }
 
-    public String getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
