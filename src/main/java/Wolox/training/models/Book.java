@@ -11,8 +11,8 @@ import java.util.List;
 @ApiModel(description = "Represents books from the OpenLibraryApi")
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @ApiModelProperty(value="Represents the book title.", required = true)
     @Column(nullable = false, unique = true)
@@ -48,11 +48,13 @@ public class Book {
     private Integer pages;
 
     @ApiModelProperty(value = "ISBN code", required = true)
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String isbn;
 
     @ManyToMany(mappedBy = "books")
     private List<User> users = new ArrayList<>();
+
+    public Book() {}
 
     public Book(String title, String author, String gender, String image, String subtitle, String publisher, String year, Integer pages, String isbn) {
         this.title = title;
