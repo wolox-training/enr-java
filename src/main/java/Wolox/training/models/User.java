@@ -3,8 +3,14 @@ package wolox.training.models;
 import wolox.training.exceptions.BookAlreadyOwnedException;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Strings.isNullOrEmpty;
+import static wolox.training.constants.PreconditionMessage.NOT_NULL_OR_EMPTY;
 
 @Entity(name = "users")
 public class User {
@@ -20,7 +26,7 @@ public class User {
     private String name;
 
     @Column(nullable = false)
-    private String birthDate;
+    private LocalDate birthDate;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "book_user",
@@ -39,15 +45,12 @@ public class User {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
+        checkArgument(!isNullOrEmpty(username), NOT_NULL_OR_EMPTY);
         this.username = username;
     }
 
@@ -56,14 +59,16 @@ public class User {
     }
 
     public void setName(String name) {
+        checkArgument(!isNullOrEmpty(name), NOT_NULL_OR_EMPTY);
         this.name = name;
     }
 
-    public String getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
+        checkNotNull(birthDate, NOT_NULL_OR_EMPTY);
         this.birthDate = birthDate;
     }
 
@@ -76,6 +81,7 @@ public class User {
     }
 
     public void setBooks(List<Book> books) {
+        checkArgument(!books.isEmpty(), NOT_NULL_OR_EMPTY);
         this.books = books;
     }
 

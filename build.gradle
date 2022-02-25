@@ -23,6 +23,7 @@ dependencies {
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 	implementation("org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE")
+	implementation group: 'com.google.guava', name: 'guava', version: '27.0-jre'
 }
 
 tasks.named('test') {
