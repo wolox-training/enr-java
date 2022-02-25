@@ -1,4 +1,12 @@
-package Wolox.training.controllers;
+package wolox.training.controllers;
+
+import wolox.training.exceptions.BookNotFoundException;
+import wolox.training.models.Book;
+import wolox.training.repositories.BookRepository;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 
 import Wolox.training.exceptions.BookNotFoundException;
 import wolox.training.exceptions.BookIdMismatchException;
@@ -13,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
+@Api
 @RequestMapping("/books")
 public class BookController {
     /***
@@ -40,6 +49,8 @@ public class BookController {
      * @return Book created
      */
     @PostMapping
+    @ApiOperation(value = "Giving an object returns a book", response = Book.class)
+    @ApiResponse(code = 200, message = "The book was created successfully.")
     @ResponseStatus(HttpStatus.CREATED)
     public Book create(@RequestBody Book book) {
         return bookRepository.save(book);
