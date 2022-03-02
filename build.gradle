@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 
-group = 'Wolox'
+group = 'wolox'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
@@ -21,6 +21,10 @@ dependencies {
 	testImplementation 'com.h2database:h2:1.4.200'
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
+	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+	implementation("org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE")
+	implementation group: 'com.google.guava', name: 'guava', version: '27.0-jre'
 }
 
 tasks.named('test') {
