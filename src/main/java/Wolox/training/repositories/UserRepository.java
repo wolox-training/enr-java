@@ -1,6 +1,6 @@
-package Wolox.training.repositories;
+package wolox.training.repositories;
 
-import Wolox.training.models.User;
+import wolox.training.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

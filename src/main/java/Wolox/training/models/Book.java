@@ -8,6 +8,7 @@ import java.time.Year;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static wolox.training.constants.PreconditionMessage.*;
 
@@ -73,7 +74,7 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -147,7 +148,8 @@ public class Book {
     }
 
     public void setPages(Integer pages) {
-        checkArgument(!isNullOrEmpty(pages), NOT_NULL_OR_EMPTY);
+        checkNotNull(pages, NOT_NULL_OR_EMPTY);
+        checkArgument(pages > 0, PAGE_NUMBERS_IS_LESS);
         this.pages = pages;
     }
 

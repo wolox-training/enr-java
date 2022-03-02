@@ -12,24 +12,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/books")
 @Api
 public class BookController {
-    /***
-     *
-     * @param name received from the query
-     * @param model used to set attributes to the view
-     * @return a String which is the name of template
-     */
-    @GetMapping("/greeting")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-        return "greeting";
-    }
 
     @Autowired
     private BookRepository bookRepository;
+
+    /**
+     * This method gets all the saved {@link Book}s
+     * @return saved {@link Book}s
+     */
+    @GetMapping
+    public List<Book> getAll() {
+        return bookRepository.findAll();
+    }
+
 
     /***
      * This method creates a book

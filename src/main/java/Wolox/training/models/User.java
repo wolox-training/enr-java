@@ -17,7 +17,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String username;
@@ -35,13 +35,13 @@ public class User {
                     referencedColumnName = "id"))
     private List<Book> books;
 
-    public User(String username, String name, String birthDate) {
+    public User(String username, String name, LocalDate birthDate) {
         this.username = username;
         this.name = name;
         this.birthDate = birthDate;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
