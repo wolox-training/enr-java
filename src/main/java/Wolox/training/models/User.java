@@ -4,6 +4,7 @@ import wolox.training.exceptions.BookAlreadyOwnedException;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,10 +17,10 @@ import static wolox.training.constants.PreconditionMessage.NOT_NULL_OR_EMPTY;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
@@ -30,16 +31,18 @@ public class User {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "book_user",
-            joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id",
                     referencedColumnName = "id"))
-    private List<Book> books;
+    private List<Book> books = new ArrayList<>();
 
     public User(String username, String name, LocalDate birthDate) {
         this.username = username;
         this.name = name;
         this.birthDate = birthDate;
     }
+
+    public User() {}
 
     public Long getId() {
         return id;

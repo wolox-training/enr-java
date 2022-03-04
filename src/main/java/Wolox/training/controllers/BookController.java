@@ -1,15 +1,13 @@
 package wolox.training.controllers;
 
+import wolox.training.exceptions.BookIdMismatchException;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +17,11 @@ import java.util.List;
 @Api
 public class BookController {
 
-    @Autowired
     private BookRepository bookRepository;
+
+    public BookController(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     /**
      * This method gets all the saved {@link Book}s
@@ -36,7 +37,7 @@ public class BookController {
      * This method creates a book
      *
      * @param book: contain the book's data
-     * @return Book created
+     * @return {@link Book} created
      */
     @PostMapping
     @ApiOperation(value = "Giving an object returns a book", response = Book.class)
@@ -50,7 +51,7 @@ public class BookController {
      *This method find a book
      *
      * @param id: identifier of the book
-     * @return a Book instance
+     * @return a {@link Book} instance
      */
     @GetMapping("/{id}")
     public Book findOne(@PathVariable Long id) {
@@ -63,12 +64,12 @@ public class BookController {
      *
      * @param book: contain the book's data
      * @param id: identifier of the book to update
-     * @return Book updated.
+     * @return {@link Book} updated.
      */
     @PutMapping("/{id}")
     public Book updateBook(@RequestBody Book book, @PathVariable Long id) {
-        if (book.getId() != id) {
-            throw new BookNotFoundException();
+        if (!id.equals(book.getId())) {
+            throw new BookIdMismatchException();
         }
        bookRepository.findById(id)
                 .orElseThrow(BookNotFoundException::new);
@@ -76,7 +77,7 @@ public class BookController {
     }
 
     /***
-     * This method remove a book
+     * This method remove a {@link Book}
      *
      * @param id: identifier of the book to delete
      */
