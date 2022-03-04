@@ -53,6 +53,9 @@ public class Book {
     @Column(nullable = false)
     private Integer pages;
 
+    @ManyToMany(mappedBy = "books")
+    private List<User> users;
+
     @ApiModelProperty(value = "ISBN code", required = true)
     @Column(nullable = false, unique = true)
     private String isbn;
