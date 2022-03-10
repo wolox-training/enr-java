@@ -2,58 +2,44 @@ package wolox.training.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import wolox.training.models.Book;
+import wolox.training.mocks.TestData;
 import wolox.training.repositories.BookRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(value = BookController.class)
 public class BookControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @MockBean
     private BookRepository bookRepository;
 
-    private Book bookObj;
-
-    private List<Book> books = new ArrayList<>();
-
-    @BeforeEach
-    public void setUp() {
-        bookObj = new Book("String title", "String author", "String gender", "String image", " String subtitle", "String publisher", "2019", 100, "String isbn");
-        Book bookTest = new Book("Book Test", "Author2", "String gender", "String image", " String subtitle", "String publisher", "2019", 100, "String isbn");
-
-        books.add(bookTest);
-        books.add(bookObj);
-    }
 
     @Test
     public void whenSendBookData_thenCreateIt() throws Exception {
 
-        String bookData = new ObjectMapper().writeValueAsString(bookObj);
+        String bookData = new ObjectMapper().writeValueAsString(TestData.BOOK);
 
         mvc.perform(post("/api/books")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -64,39 +50,38 @@ public class BookControllerTest {
     @Test
     public void whenFindALl_aBooksListIsReturned() throws Exception {
 
-        when(bookRepository.findAll()).thenReturn(books);
+        when(bookRepository.findAll()).thenReturn(TestData.BOOKS);
 
         mvc.perform(get("/api/books")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)));
+                .andExpect(jsonPath("$", hasSize(TestData.BOOKS.size())));
 
     }
 
     @Test
     public void whenFindABookById_aBookIsReturned() throws Exception {
 
-        when(bookRepository.findById(1L)).thenReturn(Optional.of(bookObj));
+        when(bookRepository.findById(1L)).thenReturn(Optional.of(TestData.BOOK));
 
         mvc.perform(get("/api/books/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title", containsString(bookObj.getTitle())));
+                .andExpect(jsonPath("$.title", containsString(TestData.BOOK.getTitle())));
     }
 
     @Test
     public void whenSendBookData_thenUpdateIt() throws Exception {
         String newTitle = "This is the new Title";
-        bookObj.setTitle(newTitle);
+        TestData.BOOK.setTitle(newTitle);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        ObjectNode bookData = objectMapper.convertValue(bookObj, ObjectNode.class);
+        ObjectNode bookData = objectMapper.convertValue(TestData.BOOK, ObjectNode.class);
         bookData.put("id", 1);
 
         String requestBody = new ObjectMapper().writeValueAsString(bookData);
 
-        when(bookRepository.findById(1L)).thenReturn(Optional.of(bookObj));
-        when(bookRepository.save(bookObj)).thenReturn(bookObj);
+        when(bookRepository.findById(1L)).thenReturn(Optional.of(TestData.BOOK));
+        when(bookRepository.save(TestData.BOOK)).thenReturn(TestData.BOOK);
 
         mvc.perform(put("/api/books/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -106,7 +91,7 @@ public class BookControllerTest {
 
     @Test
     public void givenABookId_thenTheBookIsDeleted() throws Exception {
-        when(bookRepository.findById(1L)).thenReturn(Optional.of(bookObj));
+        when(bookRepository.findById(1L)).thenReturn(Optional.of(TestData.BOOK));
 
         mvc.perform(delete("/api/books/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -123,17 +108,13 @@ public class BookControllerTest {
     @Test
     public void whenSendMisMatchBookData_thenError400IsReturned() throws Exception {
         String newTitle = "Title Updated";
-        bookObj.setTitle(newTitle);
-
-        String requestBody = new ObjectMapper().writeValueAsString(bookObj);
-
-        when(bookRepository.findById(1L)).thenReturn(Optional.of(bookObj));
-        when(bookRepository.save(bookObj)).thenReturn(bookObj);
+        TestData.BOOK.setTitle(newTitle);
+        String requestBody = new ObjectMapper().writeValueAsString(TestData.BOOK);
 
         mvc.perform(put("/api/books/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
-                .andExpect(status().isBadRequest());
+                        .andExpect(status().isBadRequest());
     }
 
 }

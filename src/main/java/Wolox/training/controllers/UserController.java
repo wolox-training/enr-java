@@ -1,14 +1,15 @@
 package wolox.training.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.exceptions.UserIdMismatchException;
 import wolox.training.exceptions.UserNotFoundException;
 import wolox.training.models.Book;
 import wolox.training.models.User;
-import wolox.training.repositories.UserRepository;
 import wolox.training.repositories.BookRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import wolox.training.repositories.UserRepository;
+
 import java.util.List;
 
 @RestController
@@ -64,7 +65,7 @@ public class UserController {
      * @return {@link User} updated.
      */
     @PutMapping("/{id}")
-    public User updateBook(@RequestBody User user, @PathVariable Long id) {
+    public User updateUser(@RequestBody User user, @PathVariable Long id) {
         if ( !id.equals(user.getId())) {
             throw new UserIdMismatchException();
         }
