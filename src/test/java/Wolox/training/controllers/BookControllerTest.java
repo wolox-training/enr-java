@@ -78,7 +78,7 @@ public class BookControllerTest {
         ObjectNode bookData = objectMapper.convertValue(TestData.BOOK, ObjectNode.class);
         bookData.put("id", 1);
 
-        String requestBody = new ObjectMapper().writeValueAsString(bookData);
+        String requestBody = objectMapper.writeValueAsString(bookData);
 
         when(bookRepository.findById(1L)).thenReturn(Optional.of(TestData.BOOK));
         when(bookRepository.save(TestData.BOOK)).thenReturn(TestData.BOOK);
