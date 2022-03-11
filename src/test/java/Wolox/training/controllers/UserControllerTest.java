@@ -89,7 +89,7 @@ public class UserControllerTest {
         userData.put("id", 1);
         userData.remove("books");
 
-        String requestBody = new ObjectMapper().writeValueAsString(userData);
+        String requestBody = objectMapper.writeValueAsString(userData);
 
         when(userRepository.findById(1L)).thenReturn(Optional.of(TestData.USER));
         when(userRepository.save(TestData.USER)).thenReturn(TestData.USER);
