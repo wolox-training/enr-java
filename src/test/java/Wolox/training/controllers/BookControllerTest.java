@@ -109,7 +109,7 @@ public class BookControllerTest {
     public void whenSendMisMatchBookData_thenError400IsReturned() throws Exception {
         String newTitle = "Title Updated";
         TestData.BOOK.setTitle(newTitle);
-        String requestBody = new ObjectMapper().writeValueAsString(TestData.BOOK);
+        String requestBody = objectMapper.writeValueAsString(TestData.BOOK);
 
         mvc.perform(put("/api/books/1")
                         .contentType(MediaType.APPLICATION_JSON)
