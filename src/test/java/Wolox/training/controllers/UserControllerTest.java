@@ -134,7 +134,7 @@ public class UserControllerTest {
 
         ObjectNode userData = objectMapper.convertValue(TestData.USER, ObjectNode.class);
 
-        String requestBody = new ObjectMapper().writeValueAsString(userData);
+        String requestBody = objectMapper.writeValueAsString(userData);
 
         mvc.perform(put("/api/users/2")
                         .contentType(MediaType.APPLICATION_JSON)
