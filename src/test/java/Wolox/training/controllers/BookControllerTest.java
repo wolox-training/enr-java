@@ -39,7 +39,7 @@ public class BookControllerTest {
     @Test
     public void whenSendBookData_thenCreateIt() throws Exception {
 
-        String bookData = new ObjectMapper().writeValueAsString(TestData.BOOK);
+        String bookData = objectMapper.writeValueAsString(TestData.BOOK);
 
         mvc.perform(post("/api/books")
                         .contentType(MediaType.APPLICATION_JSON)
