@@ -1,8 +1,12 @@
 package wolox.training.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.ResponseEntity;
 import wolox.training.exceptions.BookIdMismatchException;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.models.Book;
+import wolox.training.models.daos.BookInfoDAO;
+import wolox.training.models.dtos.BookInfoDTO;
 import wolox.training.repositories.BookRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,8 +14,11 @@ import io.swagger.annotations.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import wolox.training.services.OpenLibraryService;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/books")
@@ -19,6 +26,9 @@ import java.util.List;
 public class BookController {
 
     private BookRepository bookRepository;
+
+    @Autowired
+    OpenLibraryService openLibraryService;
 
     public BookController(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
@@ -87,6 +97,39 @@ public class BookController {
         bookRepository.findById(id)
                 .orElseThrow(BookNotFoundException::new);
         bookRepository.deleteById(id);
+    }
+
+    /***
+     *This method find a book by isbn on database or External API
+     *
+     * @param isbn: isbn of the book
+     * @return a {@link Book} instance
+     */
+    @GetMapping("/open-library/{isbn}")
+    public ResponseEntity<?> getBookByIsbn(@PathVariable String isbn) throws Exception {
+        Optional<Book> dbBook = bookRepository.findByIsbn(isbn);
+        if (dbBook.isPresent()){
+            return ResponseEntity.ok(dbBook);
+        }
+
+        BookInfoDTO externalBook = Optional.ofNullable(openLibraryService.bookInfo(isbn))
+                .orElseThrow(BookNotFoundException::new);
+
+        Book newBook = new Book(
+                externalBook.getTitle(),
+                externalBook.getAuthors().get(0).getName(),
+                "gender",
+                "image",
+                externalBook.getSubtitle() != null ? externalBook.getSubtitle() : externalBook.getTitle(),
+                externalBook.getPublishers().get(0).getName(),
+                externalBook.getYear(),
+                externalBook.getPages(),
+                externalBook.getIsbn());
+
+        newBook = bookRepository.save(newBook);
+
+        return ResponseEntity.created(URI.create("/api/books/"+isbn)).body(newBook);
+
     }
 
 

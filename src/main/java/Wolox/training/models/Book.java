@@ -60,9 +60,6 @@ public class Book {
     @Column(nullable = false, unique = true)
     private String isbn;
 
-    @ManyToMany(mappedBy = "books")
-    private List<User> users;
-
     public Book(){}
 
     public Book(String title, String author, String gender, String image, String subtitle, String publisher, String year, Integer pages, String isbn) {
