@@ -42,8 +42,18 @@ public class BookController {
      * @return saved {@link Book}s
      */
     @GetMapping
-    public List<Book> getAll() {
-        return bookRepository.findAll();
+    public List<Book> getAll(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String gender,
+            @RequestParam(required = false) String subtitle,
+            @RequestParam(required = false) String publisher,
+            @RequestParam(required = false) String year,
+            @RequestParam(required = false) Integer pages,
+            @RequestParam(required = false) String isbn
+
+    ) throws Exception {
+        return bookRepository.findBy(title, author, gender, subtitle, publisher, year, pages, isbn);
     }
 
 
