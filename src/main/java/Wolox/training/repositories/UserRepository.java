@@ -1,5 +1,6 @@
 package wolox.training.repositories;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import wolox.training.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,6 +27,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return a Users list
      */
     @Query("SELECT u FROM users u WHERE (u.birthDate BETWEEN :startDate AND :endDate) " +
-            "AND (u.name is null or lower(u.name) like lower(concat('%', :name,'%')))")
+            "AND (:name IS NULL OR lower(u.name) like lower(concat('%', :name,'%')))")
     List<User> findByBirthDateBetweenAndNameContainingIgnoreCase(LocalDate startDate, LocalDate endDate, String name);
+
+    @Query("SELECT u FROM users u WHERE (:username IS NULL OR u.username = :username) AND" +
+            "(:name IS NULL OR u.name = :name) AND " +
+            ":birthDate IS NULL OR u.birthDate = :birthDate")
+    List<User> findBy(String username, String name, LocalDate birthDate, Pageable paging);
 }
