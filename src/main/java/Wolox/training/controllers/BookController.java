@@ -1,16 +1,5 @@
 package wolox.training.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.ApiParam;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.ResponseEntity;
-import wolox.training.exceptions.BookIdMismatchException;
-import wolox.training.exceptions.BookNotFoundException;
-import wolox.training.models.Book;
-import wolox.training.models.daos.BookInfoDAO;
-import wolox.training.models.dtos.BookInfoDTO;
-import wolox.training.repositories.BookRepository;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -21,7 +10,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import wolox.training.exceptions.BookIdMismatchException;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.models.Book;
@@ -30,9 +18,10 @@ import wolox.training.repositories.BookRepository;
 import wolox.training.services.OpenLibraryService;
 
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import static wolox.training.constants.Pagination.*;
 
 @RestController
 @RequestMapping("/api/books")
@@ -61,10 +50,13 @@ public class BookController {
             @RequestParam(required = false) String publisher,
             @RequestParam(required = false) String year,
             @RequestParam(required = false) Integer pages,
-            @RequestParam(required = false) String isbn
-
+            @RequestParam(required = false) String isbn,
+            @RequestParam(defaultValue = DEFAULT_PAGE) Integer page,
+            @RequestParam(defaultValue = DEFAULT_SIZE) Integer size,
+            @RequestParam(defaultValue = DEFAULT_SORTING) String sort_by
     ) throws Exception {
-        return bookRepository.findBy(title, author, gender, subtitle, publisher, year, pages, isbn);
+        Pageable paging = PageRequest.of(page, size, Sort.by(sort_by));
+        return bookRepository.findBy(title, author, gender, subtitle, publisher, year, pages, isbn, paging);
     }
 
 
