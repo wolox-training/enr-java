@@ -1,6 +1,8 @@
 package wolox.training.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.ApiParam;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import wolox.training.exceptions.BookIdMismatchException;
 import wolox.training.exceptions.BookNotFoundException;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import wolox.training.services.OpenLibraryService;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -132,6 +135,14 @@ public class BookController {
 
     }
 
+    @GetMapping("/findby-publisher-gender-year")
+    public List<Book> getBookBy(
+            @RequestParam String publisher,
+            @RequestParam String gender,
+            @RequestParam String year
 
+    ) throws Exception {
+        return bookRepository.findByPublisherAndGenderAndYear(publisher, gender, year);
+    }
 
 }

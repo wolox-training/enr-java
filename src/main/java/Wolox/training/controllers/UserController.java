@@ -1,5 +1,6 @@
 package wolox.training.controllers;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.exceptions.UserIdMismatchException;
 import wolox.training.exceptions.UserNotFoundException;
@@ -9,6 +10,8 @@ import wolox.training.repositories.UserRepository;
 import wolox.training.repositories.BookRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -124,6 +127,18 @@ public class UserController {
         List<Book> books = user.removeBook(book);
         userRepository.save(user);
         return books;
+    }
+
+
+    @GetMapping("/findby-birthdate-and-name")
+    public List<User> getBookBy(
+            @RequestParam(value = "startDate")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value = "endDate")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam String name
+    ) throws Exception {
+        return userRepository.findByBirthDateBetweenAndNameContainingIgnoreCase(startDate, endDate, name);
     }
 
 }

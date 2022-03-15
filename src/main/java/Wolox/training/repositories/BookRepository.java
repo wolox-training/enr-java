@@ -3,6 +3,7 @@ package wolox.training.repositories;
 import wolox.training.models.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 /***
@@ -25,4 +26,13 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @return a book
      */
     Optional<Book> findByIsbn(String isbn);
+
+    /***
+     * This methods find a book by publisher, gender and year
+     * @param publisher
+     * @param gender
+     * @param year
+     * @returna books List
+     */
+    List<Book> findByPublisherAndGenderAndYear(String publisher, String gender, String year);
 }
