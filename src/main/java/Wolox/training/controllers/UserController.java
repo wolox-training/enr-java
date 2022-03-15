@@ -67,7 +67,7 @@ public class UserController {
      * @return {@link User} updated.
      */
     @PutMapping("/{id}")
-    public User updateBook(@RequestBody User user, @PathVariable Long id) {
+    public User updateUser(@RequestBody User user, @PathVariable Long id) {
         if ( !id.equals(user.getId())) {
             throw new UserIdMismatchException();
         }
