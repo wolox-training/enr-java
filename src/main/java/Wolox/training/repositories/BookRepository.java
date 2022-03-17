@@ -50,4 +50,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             "(b.pages = :pages OR :pages IS NULL) AND" +
             "(b.isbn = :isbn OR :isbn IS NULL)")
     List<Book> findBy(String title, String author, String gender, String subtitle, String publisher, String year, Integer pages, String isbn);
+
 }

@@ -10,16 +10,26 @@ import wolox.training.models.Book;
 import wolox.training.models.daos.BookInfoDAO;
 import wolox.training.models.dtos.BookInfoDTO;
 import wolox.training.repositories.BookRepository;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import wolox.training.exceptions.BookIdMismatchException;
+import wolox.training.exceptions.BookNotFoundException;
+import wolox.training.models.Book;
+import wolox.training.models.dtos.BookInfoDTO;
+import wolox.training.repositories.BookRepository;
 import wolox.training.services.OpenLibraryService;
 
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
