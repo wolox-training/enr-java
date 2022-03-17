@@ -1,19 +1,20 @@
 package wolox.training.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.ResponseEntity;
-import wolox.training.exceptions.BookIdMismatchException;
-import wolox.training.exceptions.BookNotFoundException;
-import wolox.training.models.Book;
-import wolox.training.models.daos.BookInfoDAO;
-import wolox.training.models.dtos.BookInfoDTO;
-import wolox.training.repositories.BookRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import wolox.training.exceptions.BookIdMismatchException;
+import wolox.training.exceptions.BookNotFoundException;
+import wolox.training.models.Book;
+import wolox.training.models.dtos.BookInfoDTO;
+import wolox.training.repositories.BookRepository;
 import wolox.training.services.OpenLibraryService;
 
 import java.net.URI;
@@ -114,6 +115,22 @@ public class BookController {
 
         BookInfoDTO externalBook = Optional.ofNullable(openLibraryService.bookInfo(isbn))
                 .orElseThrow(BookNotFoundException::new);
+        Book newBook = new Book(
+                externalBook.getTitle(),
+                externalBook.getAuthors().get(0).getName(),
+                "gender",
+                "image",
+                externalBook.getSubtitle() != null ? externalBook.getSubtitle() : externalBook.getTitle(),
+                externalBook.getPublishers().get(0).getName(),
+                externalBook.getYear(),
+                externalBook.getPages(),
+                externalBook.getIsbn());
+
+        newBook = bookRepository.save(newBook);
+
+        return ResponseEntity.created(URI.create("/api/books/"+isbn)).body(newBook);
+
+    }
 
         Book newBook = new Book(
                 externalBook.getTitle(),
@@ -132,6 +149,14 @@ public class BookController {
 
     }
 
+    @GetMapping("/findby-publisher-gender-year")
+    public List<Book> getBookBy(
+            @RequestParam String publisher,
+            @RequestParam String gender,
+            @RequestParam String year
 
+    ) throws Exception {
+        return bookRepository.findByPublisherAndGenderAndYear(publisher, gender, year);
+    }
 
 }
