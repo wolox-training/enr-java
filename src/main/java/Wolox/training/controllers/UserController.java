@@ -1,6 +1,12 @@
 package wolox.training.controllers;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.exceptions.UserIdMismatchException;
 import wolox.training.exceptions.UserNotFoundException;

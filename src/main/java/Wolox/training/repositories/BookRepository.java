@@ -35,6 +35,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @param year
      * @returna books List
      */
+
     @Query("SELECT b FROM Book b WHERE (b.publisher is null or b.publisher = :publisher) " +
             "AND (:gender IS NULL OR b.gender = :gender) " +
             "AND (:year IS NULL OR b.year = :year)")

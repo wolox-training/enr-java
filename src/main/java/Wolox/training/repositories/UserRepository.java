@@ -1,6 +1,9 @@
 package wolox.training.repositories;
 
+
+import wolox.training.models.Book;
 import org.springframework.data.jpa.repository.Query;
+
 import wolox.training.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -25,6 +28,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param name user's name
      * @return a Users list
      */
+
     @Query("SELECT u FROM users u WHERE (u.birthDate BETWEEN :startDate AND :endDate) " +
             "AND (:name IS NULL OR lower(u.name) like lower(concat('%', :name,'%')))")
     List<User> findByBirthDateBetweenAndNameContainingIgnoreCase(LocalDate startDate, LocalDate endDate, String name);
