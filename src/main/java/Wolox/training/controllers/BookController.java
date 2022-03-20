@@ -21,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import wolox.training.exceptions.BookIdMismatchException;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.models.Book;
@@ -52,8 +53,18 @@ public class BookController {
      * @return saved {@link Book}s
      */
     @GetMapping
-    public List<Book> getAll() {
-        return bookRepository.findAll();
+    public List<Book> getAll(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String gender,
+            @RequestParam(required = false) String subtitle,
+            @RequestParam(required = false) String publisher,
+            @RequestParam(required = false) String year,
+            @RequestParam(required = false) Integer pages,
+            @RequestParam(required = false) String isbn
+
+    ) throws Exception {
+        return bookRepository.findBy(title, author, gender, subtitle, publisher, year, pages, isbn);
     }
 
 
@@ -127,22 +138,6 @@ public class BookController {
 
         BookInfoDTO externalBook = Optional.ofNullable(openLibraryService.bookInfo(isbn))
                 .orElseThrow(BookNotFoundException::new);
-        Book newBook = new Book(
-                externalBook.getTitle(),
-                externalBook.getAuthors().get(0).getName(),
-                "gender",
-                "image",
-                externalBook.getSubtitle() != null ? externalBook.getSubtitle() : externalBook.getTitle(),
-                externalBook.getPublishers().get(0).getName(),
-                externalBook.getYear(),
-                externalBook.getPages(),
-                externalBook.getIsbn());
-
-        newBook = bookRepository.save(newBook);
-
-        return ResponseEntity.created(URI.create("/api/books/"+isbn)).body(newBook);
-
-    }
 
         Book newBook = new Book(
                 externalBook.getTitle(),
