@@ -6,19 +6,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.exceptions.UserIdMismatchException;
 import wolox.training.exceptions.UserNotFoundException;
 import wolox.training.models.Book;
 import wolox.training.models.User;
-import wolox.training.repositories.UserRepository;
 import wolox.training.repositories.BookRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import wolox.training.repositories.UserRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import static wolox.training.constants.Pagination.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -37,8 +36,16 @@ public class UserController {
      * @return saved {@link User}s
      */
     @GetMapping
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public List<User> getAll(
+            @RequestParam(required = false) String username,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) LocalDate birthDate,
+            @RequestParam(defaultValue = DEFAULT_PAGE) Integer page,
+            @RequestParam(defaultValue = DEFAULT_SIZE) Integer size,
+            @RequestParam(defaultValue = DEFAULT_SORTING) String sort_by
+    ) {
+        Pageable paging = PageRequest.of(page, size, Sort.by(sort_by));
+        return userRepository.findBy(username, name, birthDate, paging);
     }
 
     /***
@@ -136,8 +143,8 @@ public class UserController {
     }
 
 
-    @GetMapping("/findby-birthdate-and-name")
-    public List<User> getBookBy(
+    @GetMapping
+    public List<User> getUsersBetweenDatesAndName(
             @RequestParam(value = "startDate")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(value = "endDate")
