@@ -144,7 +144,7 @@ public class UserController {
 
 
     @GetMapping
-    public List<User> getBookBy(
+    public List<User> getUsersBetweenDatesAndName(
             @RequestParam(value = "startDate")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(value = "endDate")
