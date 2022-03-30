@@ -143,7 +143,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/findby-birthdate-and-name")
+    @GetMapping
     public List<User> getBookBy(
             @RequestParam(value = "startDate")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
